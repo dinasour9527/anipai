@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" class="fixed"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Helsinki</title>
+    <link rel="apple-touch-icon" sizes="120x120" th:href="@{/favicon/apple-icon-120x120.png}"/>
+    <link rel="icon" type="image/png" sizes="192x192" th:href="@{/favicon/android-icon-192x192.png}"/>
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/favicon/favicon-32x32.png}"/>
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/favicon/favicon-16x16.png}"/>
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css"/>
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css"/>
+    <link rel="stylesheet" th:href="@{/vendor/animate.css/animate.css}"/>
+    <link rel="stylesheet" th:href="@{/vendor/toastr/toastr.min.css}"/>
+    <link rel="stylesheet" th:href="@{/vendor/magnific-popup/magnific-popup.css}"/>
+    <link rel="stylesheet" th:href="@{/stylesheets/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/anipai/coverstyle.css}"/>
+</head>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	    var currentUser = /*[[${currentUser}]]*/;
+	/*]]>*/
+</script>
+
+<body>
+<div class="wrap">
+    <div class="page-header">
+        <div class="leftside-header">
+            <div class="logo">
+                <a href="index.html" class="on-click">
+                    <img alt="logo" src="images/header-logo.png" />
+                </a>
+            </div>
+            <div id="menu-toggle" class="visible-xs toggle-left-sidebar" data-toggle-class="left-sidebar-open" data-target="html">
+                <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+            </div>
+        </div>
+        <div class="rightside-header">
+            <div class="header-middle"></div>
+            <div class="header-section" id="user-headerbox">
+                <div class="user-header-wrap">
+                    <div class="user-photo">
+                        <img src="images/user-avatar.jpg" alt="Jane Doe" />
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name" th:text="${currentUser.username}"></span>
+                        <span class="user-profile" th:text="${currentUser.roleName}"></span>
+                    </div>
+                    <!-- <i class="fa fa-plus icon-open" aria-hidden="true"></i>
+                    <i class="fa fa-minus icon-close" aria-hidden="true"></i> -->
+                </div>
+                <!-- <div class="user-options dropdown-box">
+                    <div class="drop-content basic">
+                        <ul>
+                            <li> <a href="pages_user-profile.html"><i class="fa fa-user" aria-hidden="true"></i> Profile</a></li>
+                            <li> <a href="pages_lock-screen.html"><i class="fa fa-lock" aria-hidden="true"></i> Lock Screen</a></li>
+                            <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i> Configurations</a></li>
+                        </ul>
+                    </div>
+                </div> -->
+            </div>
+            <div class="header-separator"></div>
+            <div class="header-section">
+                <a th:href="@{/logout}"><i class="fa fa-sign-out log-out" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="left-sidebar">
+            <div class="left-sidebar-header">
+                <div class="left-sidebar-title">导航栏</div>
+                <div class="left-sidebar-toggle c-hamburger c-hamburger--htla hidden-xs" data-toggle-class="left-sidebar-collapsed" data-target="html">
+                    <span></span>
+                </div>
+            </div>
+            <div id="left-nav" class="nano">
+                <div class="nano-content">
+                    <nav>
+                        <ul class="nav" id="main-nav">
+                            <!-- <li class="active-item"><a href="index.html"><i class="fa fa-home" aria-hidden="true"></i><span>Dashboard</span></a></li> -->
+                            <li class="has-child-item close-item">
+                                <a><i class="fa fa-cubes fa-unify" aria-hidden="true"></i><span>拍卖管理</span></a>
+                                <ul class="nav child-nav level-1">
+                                	<li sec:authorize="hasAuthority('CATE_VIEW')"><a href="#" onclick="transFrame('/category/categoryManage',this);return false;">分类管理</a></li>
+                                    <li sec:authorize="hasAuthority('GOODS_VIEW')"><a href="#" onclick="transFrame('/goods/goodsManage',this);return false;">标的管理</a></li>
+                                    <!-- <li><a href="#">公告管理</a></li> -->
+                                    <li sec:authorize="hasAuthority('AUCTION_VIEW')"><a id="auctionManage" href="#" onclick="transFrame('/auction/auctionManage',this);return false;">拍品管理</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-child-item close-item" sec:authorize="hasAuthority('REPORT_VIEW')">
+                                <a><i class="fa fa-pie-chart fa-unify" aria-hidden="true"></i><span>报表管理</span></a>
+                                <ul class="nav child-nav level-1">
+                                    <li><a href="#">A报表</a></li>
+                                    <li><a href="#">B报表</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-child-item close-item">
+                                <a><i class="fa fa-sitemap fa-unify" aria-hidden="true"></i><span>机构中心</span></a>
+                                <ul class="nav child-nav level-1">
+                                    <li sec:authorize="hasAuthority('AGENCY_VIEW')"><a href="#" onclick="transFrame('/agency/agencyManage',this);return false;">机构管理</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-child-item close-item">
+                                <a><i class="fa fa-user fa-unify" aria-hidden="true"></i><span>客户管理</span></a>
+                                <ul class="nav child-nav level-1">
+                                    <li sec:authorize="hasAuthority('CUSTOMER_VIEW')"><a href="#">竞买人管理</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-child-item close-item">
+                                <a><i class="fa fa-gears fa-unify" aria-hidden="true"></i><span>系统管理</span></a>
+                                <ul class="nav child-nav level-1">
+                                    <li sec:authorize="hasAuthority('ROLE_VIEW')"><a href="#" onclick="transFrame('/user/roleManage',this);return false;">角色管理</a></li>
+                                    <li sec:authorize="hasAuthority('SYSUSER_VIEW')"><a href="#" onclick="transFrame('/user/userManage',this);return false">系统用户管理</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="content p-none">
+            <div class="content-header">
+                <div class="leftside-content-header">
+                    <ul id="head-crumbs" class="breadcrumbs">
+                        <li><i class="fa fa-home fa-unify" aria-hidden="true"></i>主页</li>
+                    </ul>
+                </div>
+            </div>
+        	<div class="row">
+            	<div class="col col-sm-12">
+            		<iframe id="content-main" src="" style="border-width: 0;width: 100%;height: 100%"></iframe>
+            	</div>
+            </div>
+        </div>
+        <a href="#" class="scroll-to-top"><i class="fa fa-angle-double-up"></i></a>
+    </div>
+</div>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendor/nano-scroller/nano-scroller.js}"></script>
+<script th:src="@{/javascripts/template-script.min.js}"></script>
+<script th:src="@{/javascripts/template-init.min.js}"></script>
+<script th:src="@{/vendor/toastr/toastr.min.js}"></script>
+<!-- <script th:src="@{/vendor/chart-js/chart.min.js}"></script> -->
+<script th:src="@{/vendor/magnific-popup/jquery.magnific-popup.min.js}"></script>
+<!-- <script th:src="@{/javascripts/examples/dashboard.js}"></script> -->
+<script th:src="@{/anipai/portal/index.js}"></script>
+</body>
+
+</html>

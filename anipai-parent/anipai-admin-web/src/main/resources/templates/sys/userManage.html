@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<meta charset="UTF-8"/>
+	<title>系统用户管理</title>
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.css}"/>
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-table/css/bootstrap-table.css}"/>
+	<link rel="stylesheet" th:href="@{/vendor/select2/css/select2.min.css}"/>
+    <link rel="stylesheet" th:href="@{/vendor/select2/css/select2-bootstrap.min.css}"/>
+	<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css"/>
+	<link rel="stylesheet" th:href="@{/vendor/animate.css/animate.css}"/>
+    <!-- <link rel="stylesheet" th:href="@{/vendor/toastr/toastr.min.css}"/>
+    <link rel="stylesheet" th:href="@{/vendor/magnific-popup/magnific-popup.css}"/> -->
+	<link rel="stylesheet" th:href="@{/stylesheets/css/style.css}"/>
+	<style type="text/css">
+		body {
+			background: #ececec;
+			overflow-x: hidden;
+		}
+		.content {
+			margin-left: 0;
+		}
+		.tooltip-inner {
+			white-space: nowrap;
+		}
+		.modal-open .modal {
+			overflow: hidden;
+		}
+		.checkbox-inline {
+			float: left;
+			margin-right: 10px;
+		}
+		.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {
+			margin-left: 0;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<div id="animated-row" class="row animated fadeInUp">
+			<div class="col-sm-12">
+				<div class="panel">
+					<div class="panel-content">
+						<div id="toolbar" class="btn-group">
+							<button id="btn_add" type="button" class="btn btn-default"
+								sec:authorize="hasAuthority('SYSUSER_ADD')">
+								<span class="glyphicon glyphicon-plus"></span>创建
+							</button>
+							<!-- <button id="btn_delete" type="button" class="btn btn-default"
+								data-toggle="modal" data-target="#delete_modal">
+								<span class="glyphicon glyphicon-remove"></span>删除
+							</button> -->
+						</div>
+						<div class="table-responsive">
+							<table id="tb_user"></table>
+						</div>
+						<!-- create_model -->
+						<div id="create_modal" class="modal fade" tabindex="-1" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header state modal-primary">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">创建系统用户</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-sm-12">
+												<!-- create_form -->
+												<form id="create_form" class="form-horizontal" role="form">
+													<div class="form-group">
+														<label for="uaerName" class="col-sm-2 control-label">
+															用户名<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<input name="userName" type="text" class="form-control"/>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="role" class="col-sm-2 control-label">
+															角色<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<select name="roleId" class="role_group form-control" style="width: 100%">
+																<option value=""></option>
+															</select>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+										<button id="create_form_deploy" type="button" class="btn btn-primary">提交</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- edit_model -->
+						<div id="edit_modal" class="modal fade" tabindex="-1" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header state modal-primary">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">编辑系统用户</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-sm-12">
+												<!-- edit_form -->
+												<form id="edit_form" class="form-horizontal" role="form">
+													<input id="userId" name="userId" type="hidden"/>
+													<div class="form-group">
+														<label for="uaerName" class="col-sm-2 control-label">
+															用户名<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<input id="userName" name="userName" type="text" class="form-control"/>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="role" class="col-sm-2 control-label">
+															角色<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<select id="role" name="roleId" class="role_group form-control" style="width: 100%">
+																<option value=""></option>
+															</select>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+										<button id="edit_form_deploy" type="button" class="btn btn-primary">提交</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- confirm_delete_model -->
+						<div id="confirm_delete_model" class="modal fade" tabindex="-1" role="dialog">
+							<div class="modal-dialog modal-sm">
+								<div class="modal-content">
+									<div class="modal-header state modal-warning">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">确认删除</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-sm-12">是否确认删除</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+										<button id="delete_deploy" type="button" class="btn btn-warning">确认</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/vendor/jquery/jquery-1.12.3.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap-table/js/bootstrap-table.js}"></script>
+	<script th:src="@{/vendor/bootstrap-table/js/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/vendor/select2/js/select2.min.js}"></script>
+	<!-- <script th:src="@{/vendor/nano-scroller/nano-scroller.js}"></script> -->
+	<!-- <script th:src="@{/javascripts/template-script.min.js}"></script> -->
+	<!-- <script th:src="@{/javascripts/template-init.min.js}"></script> -->
+	<!-- <script th:src="@{/vendor/toastr/toastr.min.js}"></script> -->
+	<!-- <script th:src="@{/vendor/chart-js/chart.min.js}"></script> -->
+	<!-- <script th:src="@{/vendor/magnific-popup/jquery.magnific-popup.min.js}"></script> -->
+	<!-- <script th:src="@{/javascripts/examples/dashboard.js}"></script> -->
+	<script th:src="@{/anipai/sys/userManage.js}"></script>
+</body>
+</html>

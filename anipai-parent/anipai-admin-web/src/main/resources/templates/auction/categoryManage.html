@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<meta charset="UTF-8"/>
+	<title>分类管理</title>
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.css}"/>
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-table/css/bootstrap-table.css}"/>
+	<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css"/>
+	<link rel="stylesheet" th:href="@{/vendor/animate.css/animate.css}"/>
+    <!-- <link rel="stylesheet" th:href="@{/vendor/toastr/toastr.min.css}"/>
+    <link rel="stylesheet" th:href="@{/vendor/magnific-popup/magnific-popup.css}"/> -->
+	<link rel="stylesheet" th:href="@{/stylesheets/css/style.css}"/>
+	<style type="text/css">
+		body {
+			background: #ececec;
+			overflow-x: hidden;
+		}
+		.content {
+			margin-left: 0;
+		}
+		.tooltip-inner {
+			white-space: nowrap;
+		}
+		.modal-open .modal {
+			overflow: hidden;
+		}
+		.checkbox-inline {
+			float: left;
+			margin-right: 10px;
+		}
+		.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {
+			margin-left: 0;
+		}
+		.table-responsive {
+			overflow-y: hidden;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<div id="animated-row" class="row animated fadeInUp">
+			<div class="col-sm-12">
+	<!-- table_group -->
+	<div id="accordion_group" class="panel-group">
+		<div class="panel panel-accordion">
+			<div class="panel-header bg-scale-0">
+				<a class="panel-title" data-level="1"
+					onclick="toggleAccordion(1);return false;">
+					第一分类
+				</a>
+			</div>
+			<div id="accordion1" class="panel-collapse collapse in">
+				<div class="panel-content">
+					<!-- toolbar -->
+					<div id="toolbar1" class="btn-group">
+						<button id="btn_add1" type="button" class="btn btn-default"
+							sec:authorize="hasAuthority('CATE_ADD')">
+							<span class="glyphicon glyphicon-plus"></span>创建
+						</button>
+					</div>
+					<!-- table -->
+					<div class="table-responsive">
+						<table id="tb_category1"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-accordion">
+			<div class="panel-header bg-scale-0">
+				<a class="panel-title" data-level="2" onclick="toggleAccordion(2);return false;">
+					第二分类
+				</a>
+			</div>
+			<div id="accordion2" class="panel-collapse collapse">
+				<div class="panel-content">
+					<!-- toolbar -->
+					<div id="toolbar2" class="btn-group">
+						<button id="btn_add2" type="button" class="btn btn-default"
+							sec:authorize="hasAuthority('CATE_ADD')">
+							<span class="glyphicon glyphicon-plus"></span>创建
+						</button>
+					</div>
+					<!-- table -->
+					<div class="table-responsive">
+						<table id="tb_category2"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-accordion">
+			<div class="panel-header bg-scale-0">
+				<a class="panel-title" data-level="3" onclick="toggleAccordion(3);return false;">
+					第三分类
+				</a>
+			</div>
+			<div id="accordion3" class="panel-collapse collapse">
+				<div class="panel-content">
+					<!-- toolbar -->
+					<div id="toolbar3" class="btn-group">
+						<button id="btn_add3" type="button" class="btn btn-default"
+							sec:authorize="hasAuthority('CATE_ADD')">
+							<span class="glyphicon glyphicon-plus"></span>创建
+						</button>
+					</div>
+					<!-- table -->
+					<div class="table-responsive">
+						<table id="tb_category3"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+				
+				<!-- create_model -->
+				<div id="create_modal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header state modal-primary">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">创建分类</h4>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-sm-12">
+										<!-- create_form -->
+										<form id="create_form" class="form-horizontal" role="form">
+											<input id="create_form_level" type="hidden" name="level"/>
+											<input id="create_form_pcateid" type="hidden" name="parentCategoryId"/>
+											<div class="form-group">
+												<label for="categoryName" class="col-sm-2 control-label">
+													分类名称<span class="required">*</span>
+												</label>
+												<div class="col-sm-10">
+													<input name="categoryName" type="text" class="form-control"/>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<button id="create_form_deploy" type="button" class="btn btn-primary">提交</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- edit_model -->
+				<div id="edit_modal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header state modal-primary">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">编辑分类</h4>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-sm-12">
+										<!-- edit_form -->
+										<form id="edit_form" class="form-horizontal" role="form">
+											<input id="edit_form_categoryId" name="categoryId" type="hidden"/>
+											<input id="edit_form_level" type="hidden"/>
+											<div class="form-group">
+												<label for="edit_form_categoryName" class="col-sm-2 control-label">
+													分类名称<span class="required">*</span>
+												</label>
+												<div class="col-sm-10">
+													<input id="edit_form_categoryName" name="categoryName" type="text" class="form-control"/>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<button id="edit_form_deploy" type="button" class="btn btn-primary">提交</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- confirm_delete_model -->
+				<div id="confirm_delete_model" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+							<div class="modal-header state modal-warning">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">确认删除</h4>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-sm-12">是否确认删除</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<button id="delete_deploy" type="button" class="btn btn-warning">确认</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/vendor/jquery/jquery-1.12.3.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap-table/js/bootstrap-table.js}"></script>
+	<script th:src="@{/vendor/bootstrap-table/js/bootstrap-table-zh-CN.js}"></script>
+	<!-- <script th:src="@{/vendor/nano-scroller/nano-scroller.js}"></script> -->
+	<!-- <script th:src="@{/javascripts/template-script.min.js}"></script> -->
+	<!-- <script th:src="@{/javascripts/template-init.min.js}"></script> -->
+	<!-- <script th:src="@{/vendor/toastr/toastr.min.js}"></script> -->
+	<!-- <script th:src="@{/vendor/chart-js/chart.min.js}"></script> -->
+	<!-- <script th:src="@{/vendor/magnific-popup/jquery.magnific-popup.min.js}"></script> -->
+	<!-- <script th:src="@{/javascripts/examples/dashboard.js}"></script> -->
+	<script th:src="@{/anipai/auction/categoryManage.js}"></script>
+</body>
+</html>

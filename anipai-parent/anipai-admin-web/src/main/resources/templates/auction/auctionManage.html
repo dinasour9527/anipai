@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<meta charset="UTF-8"/>
+	<title>拍品管理</title>
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.css}"/>
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-table/css/bootstrap-table.css}"/>
+	<link rel="stylesheet" th:href="@{/vendor/select2/css/select2.min.css}"/>
+    <link rel="stylesheet" th:href="@{/vendor/select2/css/select2-bootstrap.min.css}"/>
+	<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css"/>
+	<link rel="stylesheet" th:href="@{/vendor/animate.css/animate.css}"/>
+	<link rel="stylesheet" th:href="@{/vendor/bootstrap-datetime-picker/css/bootstrap-datetimepicker.min.css}"/>
+    <!-- <link rel="stylesheet" th:href="@{/vendor/toastr/toastr.min.css}"/>
+    <link rel="stylesheet" th:href="@{/vendor/magnific-popup/magnific-popup.css}"/> -->
+	<link rel="stylesheet" th:href="@{/stylesheets/css/style.css}"/>
+	<style type="text/css">
+		body {
+			background: #ececec;
+			overflow-x: hidden;
+		}
+		.content {
+			margin-left: 0;
+		}
+		.tooltip-inner {
+			white-space: nowrap;
+		}
+		.modal-open .modal {
+			overflow: hidden;
+		}
+		.checkbox-inline {
+			float: left;
+			margin-right: 10px;
+		}
+		.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {
+			margin-left: 0;
+		}
+		#create_modal > .modal-dialog {
+			margin-top: 5%;
+		}
+		#edit_modal > .modal-dialog {
+			margin-top: 5%;
+		}
+		.switch {
+			display: table-cell;
+		}
+	</style>
+</head>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	    var createFlag = /*[[${createFlag}]]*/;
+		var goods = /*[[${goods}]]*/;
+	/*]]>*/
+</script>
+<body>
+	<div class="content">
+		<div id="animated-row" class="row animated fadeInUp">
+			<div class="col-sm-12">
+				<div class="panel">
+					<div class="panel-content">
+						<div id="toolbar" class="btn-group">
+							<!-- <button id="btn_add" type="button" class="btn btn-default"
+								sec:authorize="hasAuthority('SYSUSER_ADD')">
+								<span class="glyphicon glyphicon-plus"></span>创建
+							</button> -->
+							<!-- <button id="btn_delete" type="button" class="btn btn-default"
+								data-toggle="modal" data-target="#delete_modal">
+								<span class="glyphicon glyphicon-remove"></span>删除
+							</button> -->
+						</div>
+						<div class="table-responsive">
+							<table id="tb_auction"></table>
+						</div>
+						<!-- create_model -->
+						<div id="create_modal" class="modal fade" tabindex="-1" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header state modal-primary">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">创建拍品</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-sm-12">
+												<!-- create_form -->
+												<form id="create_form" class="form-horizontal" role="form">
+													<input id="create_form_goodsId" type="hidden" name="goodsId"/>
+													<div class="form-group">
+														<label for="create_form_auctionName" class="col-sm-2 control-label">
+															拍品名称<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<input id="create_form_auctionName" name="auctionName" type="text" class="form-control"/>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="create_form_beginTime" class="col-sm-2 control-label">
+															开始时间<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<div class="input-group">
+																<span class="input-group-addon x-primary"><i class="fa fa-calendar"></i></span>
+																<input id="create_form_beginTime" name="beginTime" type="text" class="form-control"/>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="create_form_endTime" class="col-sm-2 control-label">
+															结束时间<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<div class="input-group">
+																<span class="input-group-addon x-primary"><i class="fa fa-calendar"></i></span>
+																<input id="create_form_endTime" name="endTime" type="text" class="form-control"/>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="create_form_qtyAuction" class="col-sm-2 control-label">
+															上拍数量<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<div class="input-group">
+																<span class="input-group-btn">
+															        <button type="button" class="btn btn-default" data-value="-1" data-target="#create_form_qtyAuction" data-toggle="spinner">
+															            <span class="fa fa-minus"></span>
+															        </button>
+															    </span>
+																<input id="create_form_qtyAuction" data-ride="spinner" name="qtyAuction" type="text" class="form-control input-number" value="1"/>
+															    <span class="input-group-btn">
+															        <button type="button" class="btn btn-default" data-value="1" data-target="#create_form_qtyAuction" data-toggle="spinner">
+															            <span class="fa fa-plus"></span>
+															        </button>
+															    </span>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="create_form_intro" class="col-sm-2 control-label">
+															简介<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<textarea id="create_form_intro" name="intro" class="form-control" rows="3" placeholder="请输入一段简介" maxlength="100"></textarea>
+															<span class="help-block"><i class="fa fa-info-circle mr-xs"></i>最大字符数为 <span class="code">100</span></span>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+										<button id="create_form_deploy" type="button" class="btn btn-primary">提交</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- edit_model -->
+						<div id="edit_modal" class="modal fade" tabindex="-1" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header state modal-primary">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">编辑拍品</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-sm-12">
+												<!-- edit_form -->
+												<form id="edit_form" class="form-horizontal" role="form">
+													<input id="edit_form_auctionId" type="hidden" name="auctionId"/>
+													<input id="edit_form_goodsId" type="hidden" name="goodsId"/>
+													<div class="form-group">
+														<label for="edit_form_auctionName" class="col-sm-2 control-label">
+															拍品名称<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<input id="edit_form_auctionName" name="auctionName" type="text" class="form-control"/>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="edit_form_beginTime" class="col-sm-2 control-label">
+															开始时间<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<div class="input-group">
+																<span class="input-group-addon x-primary"><i class="fa fa-calendar"></i></span>
+																<input id="edit_form_beginTime" name="beginTime" type="text" class="form-control"/>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="edit_form_endTime" class="col-sm-2 control-label">
+															结束时间<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<div class="input-group">
+																<span class="input-group-addon x-primary"><i class="fa fa-calendar"></i></span>
+																<input id="edit_form_endTime" name="endTime" type="text" class="form-control"/>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="edit_form_qtyAuction" class="col-sm-2 control-label">
+															上拍数量<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<div id="spinner-input-group" class="input-group">
+																<span class="input-group-btn">
+															        <button type="button" class="btn btn-default" data-value="-1" data-target="#edit_form_qtyAuction" data-toggle="spinner">
+															            <span class="fa fa-minus"></span>
+															        </button>
+															    </span>
+																<input id="edit_form_qtyAuction" data-ride="spinner" name="qtyAuction" type="text" class="form-control input-number" value="1"/>
+															    <span class="input-group-btn">
+															        <button type="button" class="btn btn-default" data-value="1" data-target="#edit_form_qtyAuction" data-toggle="spinner">
+															            <span class="fa fa-plus"></span>
+															        </button>
+															    </span>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="edit_form_intro" class="col-sm-2 control-label">
+															简介<span class="required">*</span>
+														</label>
+														<div class="col-sm-10">
+															<textarea id="edit_form_intro" name="intro" class="form-control" rows="3" placeholder="请输入一段简介" maxlength="100"></textarea>
+															<span class="help-block"><i class="fa fa-info-circle mr-xs"></i>最大字符数为 <span class="code">100</span></span>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+										<button id="edit_form_deploy" type="button" class="btn btn-primary">提交</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- confirm_delete_model -->
+						<div id="confirm_delete_model" class="modal fade" tabindex="-1" role="dialog">
+							<div class="modal-dialog modal-sm">
+								<div class="modal-content">
+									<div class="modal-header state modal-warning">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">确认删除</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-sm-12">是否确认删除</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+										<button id="delete_deploy" type="button" class="btn btn-warning">确认</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/vendor/jquery/jquery-1.12.3.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap-table/js/bootstrap-table.js}"></script>
+	<script th:src="@{/vendor/bootstrap-table/js/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/vendor/select2/js/select2.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap-datetime-picker/js/bootstrap-datetimepicker.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap-datetime-picker/js/bootstrap-datetimepicker.zh-CN.js}"></script>
+	<script th:src="@{/vendor/bootstrap-spinner/bootstrap-spinner.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap-spinner/mousehold.min.js}"></script>
+	<!-- <script th:src="@{/vendor/nano-scroller/nano-scroller.js}"></script> -->
+	<!-- <script th:src="@{/javascripts/template-script.min.js}"></script> -->
+	<!-- <script th:src="@{/javascripts/template-init.min.js}"></script> -->
+	<!-- <script th:src="@{/vendor/toastr/toastr.min.js}"></script> -->
+	<!-- <script th:src="@{/vendor/chart-js/chart.min.js}"></script> -->
+	<!-- <script th:src="@{/vendor/magnific-popup/jquery.magnific-popup.min.js}"></script> -->
+	<!-- <script th:src="@{/javascripts/examples/dashboard.js}"></script> -->
+	<script th:src="@{/anipai/auction/auctionManage.js}"></script>
+</body>
+</html>

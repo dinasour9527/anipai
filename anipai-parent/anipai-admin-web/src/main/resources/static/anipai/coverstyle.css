@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+html, body {
+	height: 100%;
+	overflow-y: hidden;
+}
+html body {
+	min-height: 0;	
+}
+.wrap, .page-body, .content {
+	min-height: 0;
+	height: 100%;
+}
+.row, .col{
+	height: 100%;
+}
+.fa-unify {
+	width: 1.5rem;
+}

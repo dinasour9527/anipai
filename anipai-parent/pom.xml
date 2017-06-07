@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.anipai</groupId>
+	<artifactId>anipai-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>AniPai Web Project</name>
+	<description>AniPai Web Project</description>
+	
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.4.1.RELEASE</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+	
+	<modules>
+		<module>anipai-admin-web</module>
+		<module>anipai-auction-backend</module>
+		<module>anipai-system-backend</module>
+		<module>anipai-agency-backend</module>
+		<module>anipai-utils</module>
+		<module>anipai-customer-web</module>
+	</modules>
+</project>
