@@ -24,7 +24,7 @@ spring:
 server:
   port: 8010
   address: 127.0.0.1
-  contextPath: /
+  contextPath: /admin/
 
 ---
 #测试环境配置    
@@ -39,4 +39,4 @@ spring:
 server:
   port: 80
   address: 127.0.0.1
-  contextPath: /
+  contextPath: /admin/

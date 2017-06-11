@@ -11,7 +11,7 @@ var Table = function() {
 	var oTable = new Object();
 	oTable.init = function() {
 	$('#tb_agency').bootstrapTable({
-			url: '/agency/agencyTable',      
+			url: parent.baseurl + '/agency/agencyTable',      
 			method: 'get',                  
 			toolbar: '#toolbar',              
 			striped: true,                    
@@ -75,7 +75,7 @@ var Table = function() {
 			var param = $('#create_form').serialize();
 			$.ajax({
 				type: 'post',
-				url: '/agency/agencyCreate',
+				url: parent.baseurl + '/agency/agencyCreate',
 				dataType: 'json',
 				data: param,
 				success: function(data) {
@@ -89,7 +89,7 @@ var Table = function() {
 			var param = $('#edit_form').serialize();
 			$.ajax({
 				type: 'post',
-				url: '/agency/agencyEdit',
+				url: parent.baseurl + '/agency/agencyEdit',
 				dataType: 'json',
 				data: param,
 				success: function(data) {
@@ -103,7 +103,7 @@ var Table = function() {
 			var agencyId = $('#delete_deploy').data('agencyid');
 			$.ajax({
 				type: 'post',
-				url: '/agency/agencyDelete',
+				url: parent.baseurl + '/agency/agencyDelete',
 				dataType: 'json',
 				data: {
 					'agencyId': agencyId
@@ -127,7 +127,7 @@ function editModel(agencyId) {
 	$('#edit_form')[0].reset();
 	$.ajax({
 		type: 'get',
-		url: '/agency/agencyEditForm/' + agencyId,
+		url: parent.baseurl + '/agency/agencyEditForm/' + agencyId,
 		dataType: 'json',
 		success: function(data) {
 			$('#edit_form #agencyId').val(data.agencyId);

@@ -20,7 +20,7 @@ var Table = function(level) {
 	var oTable = new Object();
 	oTable.init = function() {
 		$('#tb_category'+level).bootstrapTable({
-			url: '/category/categoryTable',     //请求后台的URL（*）
+			url: parent.baseurl + '/category/categoryTable',     //请求后台的URL（*）
 			method: 'get',                      //请求方式（*）
 			toolbar: '#toolbar'+level,          //工具按钮用哪个容器
 			striped: true,                      //是否显示行间隔色
@@ -113,7 +113,7 @@ var Table = function(level) {
 				var param = $('#create_form').serialize();
 				$.ajax({
 					type: 'post',
-					url: '/category/categoryCreate',
+					url: parent.baseurl + '/category/categoryCreate',
 					dataType: 'json',
 					data: param,
 					success: function(data) {
@@ -130,7 +130,7 @@ var Table = function(level) {
 				var param = $('#edit_form').serialize();
 				$.ajax({
 					type: 'post',
-					url: '/category/categoryEdit',
+					url: parent.baseurl + '/category/categoryEdit',
 					dataType: 'json',
 					data: param,
 					success: function(data) {
@@ -147,7 +147,7 @@ var Table = function(level) {
 				var categoryId = $('#delete_deploy').data('cateid');
 				$.ajax({
 					type: 'post',
-					url: '/category/categoryDelete',
+					url: parent.baseurl + '/category/categoryDelete',
 					dataType: 'json',
 					data: {
 						'categoryId': categoryId
@@ -176,7 +176,7 @@ function editModel(categoryId, level) {
 	$('#edit_form_level').val(level);
 	$.ajax({
 		type: 'get',
-		url: '/category/categoryEditForm/' + categoryId,
+		url: parent.baseurl + '/category/categoryEditForm/' + categoryId,
 		dataType: 'json',
 		success: function(data) {
 			$('#edit_form_categoryId').val(data.categoryId);

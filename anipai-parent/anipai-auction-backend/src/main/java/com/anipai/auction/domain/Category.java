@@ -1,5 +1,7 @@
 package com.anipai.auction.domain;
 
+import java.util.Map;
+
 import com.anipai.agency.domain.Agency;
 
 public class Category {
@@ -10,6 +12,8 @@ public class Category {
 	/*父级分类*/
 	private Category parentCategory;
 	private Agency agency;
+	
+	private Map<Long, Category> subCategory;
 	
 	public Category() {}
 	public Category(String categoryName, Integer level, Category parentCategory, Agency agency) {
@@ -56,5 +60,10 @@ public class Category {
 	public void setAgency(Agency agency) {
 		this.agency = agency;
 	}
-	
+	public Map<Long, Category> getSubCategory() {
+		return subCategory;
+	}
+	public void setSubCategory(Map<Long, Category> subCategory) {
+		this.subCategory = subCategory;
+	}
 }

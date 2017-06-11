@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
@@ -32,7 +34,13 @@ public interface CategoryMapper {
 
 	@SelectProvider(type = CategoryMapperProvider.class, method = "findCategoryByParentCategoryId")
 	List<Category> findCategoryByParentCategoryId(@Param("parentCategoryId") Long parentCategoryId, @Param("agencyId") Long agencyId);
-
+	
+	@SelectProvider(type = CategoryMapperProvider.class, method = "findAll")
+	@Results({
+		@Result(column = "parent_category_id", property = "parentCategory.categoryId")
+	})
+	List<Category> findAll(@Param("agencyId") Long agencyId);
+	
 	@Insert("insert into category(category_name, level, parent_category_id, agency_id) "
 			+ "values (#{categoryName}, #{level}, #{parentCategory.categoryId}, #{agency.agencyId})")
 	@Options(useGeneratedKeys = true, keyProperty = "categoryId", keyColumn = "category_id")

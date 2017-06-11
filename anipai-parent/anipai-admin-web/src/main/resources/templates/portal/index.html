@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>Helsinki</title>
+    <title>Admin</title>
     <link rel="apple-touch-icon" sizes="120x120" th:href="@{/favicon/apple-icon-120x120.png}"/>
     <link rel="icon" type="image/png" sizes="192x192" th:href="@{/favicon/android-icon-192x192.png}"/>
     <link rel="icon" type="image/png" sizes="32x32" th:href="@{/favicon/favicon-32x32.png}"/>
@@ -24,6 +24,7 @@
 	/*<![CDATA[*/
 	    var currentUser = /*[[${currentUser}]]*/;
 	/*]]>*/
+	var baseurl = '/admin';
 </script>
 
 <body>
@@ -85,10 +86,10 @@
                             <li class="has-child-item close-item">
                                 <a><i class="fa fa-cubes fa-unify" aria-hidden="true"></i><span>拍卖管理</span></a>
                                 <ul class="nav child-nav level-1">
-                                	<li sec:authorize="hasAuthority('CATE_VIEW')"><a href="#" onclick="transFrame('/category/categoryManage',this);return false;">分类管理</a></li>
-                                    <li sec:authorize="hasAuthority('GOODS_VIEW')"><a href="#" onclick="transFrame('/goods/goodsManage',this);return false;">标的管理</a></li>
+                                	<li sec:authorize="hasAuthority('CATE_VIEW')"><a href="#" onclick="transFrame('/admin/category/categoryManage',this);return false;">分类管理</a></li>
+                                    <li sec:authorize="hasAuthority('GOODS_VIEW')"><a href="#" onclick="transFrame('/admin/goods/goodsManage',this);return false;">标的管理</a></li>
                                     <!-- <li><a href="#">公告管理</a></li> -->
-                                    <li sec:authorize="hasAuthority('AUCTION_VIEW')"><a id="auctionManage" href="#" onclick="transFrame('/auction/auctionManage',this);return false;">拍品管理</a></li>
+                                    <li sec:authorize="hasAuthority('AUCTION_VIEW')"><a id="auctionManage" href="#" onclick="transFrame('/admin/auction/auctionManage',this);return false;">拍品管理</a></li>
                                 </ul>
                             </li>
                             <li class="has-child-item close-item" sec:authorize="hasAuthority('REPORT_VIEW')">
@@ -101,20 +102,20 @@
                             <li class="has-child-item close-item">
                                 <a><i class="fa fa-sitemap fa-unify" aria-hidden="true"></i><span>机构中心</span></a>
                                 <ul class="nav child-nav level-1">
-                                    <li sec:authorize="hasAuthority('AGENCY_VIEW')"><a href="#" onclick="transFrame('/agency/agencyManage',this);return false;">机构管理</a></li>
+                                    <li sec:authorize="hasAuthority('AGENCY_VIEW')"><a href="#" onclick="transFrame('/admin/agency/agencyManage',this);return false;">机构管理</a></li>
                                 </ul>
                             </li>
                             <li class="has-child-item close-item">
                                 <a><i class="fa fa-user fa-unify" aria-hidden="true"></i><span>客户管理</span></a>
                                 <ul class="nav child-nav level-1">
-                                    <li sec:authorize="hasAuthority('CUSTOMER_VIEW')"><a href="#">竞买人管理</a></li>
+                                    <li sec:authorize="hasAuthority('CUSTOMER_VIEW')"><a href="#" onclick="transFrame('/admin/customer/customerManage',this);return false;">竞买人管理</a></li>
                                 </ul>
                             </li>
                             <li class="has-child-item close-item">
                                 <a><i class="fa fa-gears fa-unify" aria-hidden="true"></i><span>系统管理</span></a>
                                 <ul class="nav child-nav level-1">
-                                    <li sec:authorize="hasAuthority('ROLE_VIEW')"><a href="#" onclick="transFrame('/user/roleManage',this);return false;">角色管理</a></li>
-                                    <li sec:authorize="hasAuthority('SYSUSER_VIEW')"><a href="#" onclick="transFrame('/user/userManage',this);return false">系统用户管理</a></li>
+                                    <li sec:authorize="hasAuthority('ROLE_VIEW')"><a href="#" onclick="transFrame('/admin/user/roleManage',this);return false;">角色管理</a></li>
+                                    <li sec:authorize="hasAuthority('SYSUSER_VIEW')"><a href="#" onclick="transFrame('/admin/user/userManage',this);return false">系统用户管理</a></li>
                                 </ul>
                             </li>
                         </ul>

@@ -7,21 +7,21 @@ $(function(){
 		placeholder: '请选择一个分类',
 		allowClear: true
 	});
-	$('#create_form_firstcid').on("select2:select", function(e) {
+	$('#create_form_firstcid').on('select2:select', function(e) {
 		$('#create_form_secondcid > option[value!=""]').remove();
 		$('#create_form_thirdcid > option[value!=""]').remove();
-		initSecondCategory(e.params.data.id, "create", "");
+		initSecondCategory(e.params.data.id, 'create', '');
 	});
-	$('#edit_form_firstcid').on("select2:select", function(e) {
+	$('#edit_form_firstcid').on('select2:select', function(e) {
 		$('#edit_form_secondcid > option[value!=""]').remove();
 		$('#edit_form_thirdcid > option[value!=""]').remove();
-		initSecondCategory(e.params.data.id, "edit", "");
+		initSecondCategory(e.params.data.id, 'edit', '');
 	});
-	$('#create_form_firstcid').on("select2:unselect", function(e) {
+	$('#create_form_firstcid').on('select2:unselect', function(e) {
 		$('#create_form_secondcid > option[value!=""]').remove();
 		$('#create_form_thirdcid > option[value!=""]').remove();
 	});
-	$('#edit_form_firstcid').on("select2:unselect", function(e) {
+	$('#edit_form_firstcid').on('select2:unselect', function(e) {
 		$('#edit_form_secondcid > option[value!=""]').remove();
 		$('#edit_form_thirdcid > option[value!=""]').remove();
 	});
@@ -30,18 +30,18 @@ $(function(){
 		placeholder: '请选择一个分类',
 		allowClear: true
 	});
-	$('#create_form_secondcid').on("select2:select", function(e) {
+	$('#create_form_secondcid').on('select2:select', function(e) {
 		$('#create_form_thirdcid > option[value!=""]').remove();
-		initThirdCategory(e.params.data.id, "create");
+		initThirdCategory(e.params.data.id, 'create');
 	});
-	$('#edit_form_secondcid').on("select2:select", function(e) {
+	$('#edit_form_secondcid').on('select2:select', function(e) {
 		$('#edit_form_thirdcid > option[value!=""]').remove();
-		initThirdCategory(e.params.data.id, "edit");
+		initThirdCategory(e.params.data.id, 'edit');
 	});
-	$('#create_form_secondcid').on("select2:unselect", function(e) {
+	$('#create_form_secondcid').on('select2:unselect', function(e) {
 		$('#create_form_thirdcid > option[value!=""]').remove();
 	});
-	$('#edit_form_secondcid').on("select2:unselect", function(e) {
+	$('#edit_form_secondcid').on('select2:unselect', function(e) {
 		$('#edit_form_thirdcid > option[value!=""]').remove();
 	});
 	$('.thirdcate_group').select2({
@@ -53,13 +53,14 @@ $(function(){
 	$('.modal').on('hide.bs.modal', function() {
 		$('#animated-row').attr('class', 'row');
 	});
+	initPicUpload();
 });
 
 var Table = function() {
 	var oTable = new Object();
 	oTable.init = function() {
 		$('#tb_goods').bootstrapTable({
-			url: '/goods/goodsTable',             //请求后台的URL（*）
+			url: parent.baseurl + '/goods/goodsTable',             //请求后台的URL（*）
 			method: 'get',                      //请求方式（*）
 			toolbar: '#toolbar',                //工具按钮用哪个容器
 			striped: true,                      //是否显示行间隔色
@@ -85,7 +86,7 @@ var Table = function() {
 			cardView: false,                    //是否显示详细视图
 	        detailView: false,                  //是否显示父子表
 	        onLoadSuccess: function() {
-	        	$("[data-toggle='tooltip']").tooltip();
+	        	$('[data-toggle="tooltip"]').tooltip();
 	        },
 	        columns: [ {
 	            field: 'goodsName',
@@ -130,6 +131,12 @@ var Table = function() {
 	        		}
 	        		if(parent.hasAuthority('GOODS_EDIT')) {
 	        			btn_group = btn_group
+	        			+ '<button class="btn btn-transparent" onclick="uploadPicModel(' + row.goodsId + ');" '
+	        			+ 	'data-toggle="tooltip" data-placement="right" title="图片上传">'
+	        			+ 	'<i class="fa fa-upload"></i></button>';
+	        		}
+	        		if(parent.hasAuthority('GOODS_EDIT')) {
+	        			btn_group = btn_group
 	        			+ '<button class="btn btn-transparent" onclick="editModel(' + row.goodsId + ');" '
 	        			+ 	'data-toggle="tooltip" data-placement="right" title="编辑">'
 	        			+ 	'<i class="fa fa-pencil"></i></button>';
@@ -160,7 +167,7 @@ var Table = function() {
 			var param = $('#create_form').serialize();
 			$.ajax({
 				type: 'post',
-				url: '/goods/goodsCreate',
+				url: parent.baseurl + '/goods/goodsCreate',
 				dataType: 'json',
 				data: param,
 				success: function(data) {
@@ -174,7 +181,7 @@ var Table = function() {
 			var param = $('#edit_form').serialize();
 			$.ajax({
 				type: 'post',
-				url: '/goods/goodsEdit',
+				url: parent.baseurl + '/goods/goodsEdit',
 				dataType: 'json',
 				data: param,
 				success: function(data) {
@@ -188,7 +195,7 @@ var Table = function() {
 			var goodsId = $('#delete_deploy').data('goodsid');
 			$.ajax({
 				type: 'post',
-				url: '/goods/goodsDelete',
+				url: parent.baseurl + '/goods/goodsDelete',
 				dataType: 'json',
 				data: {
 					'goodsId': goodsId
@@ -206,7 +213,7 @@ var Table = function() {
 function initFirstCategory() {
 	$.ajax({
 		type: 'get',
-		url: '/category/listByLevel/1',
+		url: parent.baseurl + '/category/listByLevel/1',
 		dataType: 'json',
 		success: function(data) {
 			$.each(data, function(index, obj) {
@@ -222,7 +229,7 @@ function initFirstCategory() {
 function initSecondCategory(parentCategoryId, formType, categoryId) {
 	$.ajax({
 		type: 'get',
-		url: '/category/listByParentCategoryId/' + parentCategoryId,
+		url: parent.baseurl + '/category/listByParentCategoryId/' + parentCategoryId,
 		dataType: 'json',
 		success: function(data) {
 			$.each(data, function(index, obj) {
@@ -239,7 +246,7 @@ function initSecondCategory(parentCategoryId, formType, categoryId) {
 function initThirdCategory(parentCategoryId, formType, categoryId) {
 	$.ajax({
 		type: 'get',
-		url: '/category/listByParentCategoryId/' + parentCategoryId,
+		url: parent.baseurl + '/category/listByParentCategoryId/' + parentCategoryId,
 		dataType: 'json',
 		success: function(data) {
 			$.each(data, function(index, obj) {
@@ -266,7 +273,7 @@ function editModel(goodsId) {
 	$('#edit_form_thirdcid > option[value!=""]').remove();
 	$.ajax({
 		type: 'get',
-		url: '/goods/goodsEditForm/' + goodsId,
+		url: parent.baseurl + '/goods/goodsEditForm/' + goodsId,
 		dataType: 'json',
 		success: function(data) {
 			$('#edit_form_goodsId').val(data.goodsId);
@@ -284,6 +291,65 @@ function editModel(goodsId) {
 }
 
 function upAuction(goodsId) {
-	parent.transFrame('/auction/auctionManage/'+goodsId, parent.$('#auctionManage')[0]);
+	parent.transFrame(parent.baseurl + '/auction/auctionManage/'+goodsId, parent.$('#auctionManage')[0]);
 }
 
+function uploadPicModel(goodsId) {
+	$('#form_pic_upload').data('goodsid', goodsId);
+	$.ajax({
+		type: 'get',
+		url: parent.baseurl + '/file/getPic/' + goodsId,
+		dataType: 'json',
+		success: function(data) {
+			$('#pic_show').attr('src',parent.baseurl + data.path);
+			$('#pic_progress').css('width','0%');  
+	        $('#pic_progress').html('0%');
+			$('#pic_upload').css({display:'none'});
+	        $('#pic_cancle').css({display:''});
+			$('#pic_upload_model').modal('show');
+		},
+		error: function(data) {
+			$('#pic_show').attr('src',parent.baseurl + '/anipai/auction/picplaceholder.png');
+			$('#pic_progress').css('width','0%');  
+	        $('#pic_progress').html('0%');
+			$('#pic_upload').css({display:''});
+	        $('#pic_cancle').css({display:'none'});
+	        $('#pic_upload_model').modal('show');
+		}
+	});
+}
+
+function deleteUploadPic() {
+	var goodsId = $('#form_pic_upload').data('goodsid');
+	$.ajax({
+		type: 'post',
+		url: parent.baseurl + '/file/deletePic/' + goodsId,
+		dataType: 'json',
+		success: function(data) {
+			$('#pic_show').attr('src',parent.baseurl + '/anipai/auction/picplaceholder.png');
+			$('#pic_upload').css({display:''});
+	        $('#pic_cancle').css({display:'none'});
+		}
+	});
+}
+
+function initPicUpload() {
+	$("#form_pic_upload").fileupload({  
+        url: parent.baseurl + '/file/goodsPicUpload',
+        sequentialUploads: true,
+        //maxFileSize: 200,
+        formData: function (form) {
+        	return [
+        		{name:'goodsId',value:$('#form_pic_upload').data('goodsid')}
+        	];
+        }
+    }).bind('fileuploadprogress', function (e, data) {  
+        var progress = parseInt(data.loaded / data.total * 100, 10);  
+        $('#pic_progress').css('width',progress + '%');  
+        $('#pic_progress').html(progress + '%');  
+    }).bind('fileuploaddone', function (e, data) {  
+        $('#pic_show').attr('src',parent.baseurl + '/goodsimg/goodsimg'+$('#form_pic_upload').data('goodsid')+'.jpg');  
+        $('#pic_upload').css({display:'none'});  
+        $('#pic_cancle').css({display:''});  
+    });
+}

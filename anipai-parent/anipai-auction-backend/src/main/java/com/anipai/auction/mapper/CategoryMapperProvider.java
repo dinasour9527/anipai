@@ -6,8 +6,7 @@ import com.anipai.utils.Pagination;
 
 public class CategoryMapperProvider {
 
-	@SuppressWarnings("rawtypes")
-	public String findCategoryPage(Map map) {
+	public String findCategoryPage(Map<String, Object> map) {
 		Long agencyId = (Long)map.get("agencyId");
 		Long parentCategoryId = (Long)map.get("parentCategoryId");
 		Pagination page = (Pagination)map.get("page");
@@ -29,8 +28,7 @@ public class CategoryMapperProvider {
 		return sb.toString();
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public String total(Map map) {
+	public String total(Map<String, Object> map) {
 		Long agencyId = (Long)map.get("agencyId");
 		Long parentCategoryId = (Long)map.get("parentCategoryId");
 		StringBuilder sb = new StringBuilder();
@@ -49,8 +47,7 @@ public class CategoryMapperProvider {
 		return sb.toString();
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public String findCategoryByLevel(Map map) {
+	public String findCategoryByLevel(Map<String, Object> map) {
 		Long agencyId = (Long)map.get("agencyId");
 		StringBuilder sb = new StringBuilder();
 		sb.append("select category_id, category_name from category ");
@@ -63,8 +60,7 @@ public class CategoryMapperProvider {
 		return sb.toString();
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public String findCategoryByParentCategoryId(Map map) {
+	public String findCategoryByParentCategoryId(Map<String, Object> map) {
 		Long agencyId = (Long)map.get("agencyId");
 		StringBuilder sb = new StringBuilder();
 		sb.append("select category_id, category_name from category ");
@@ -74,6 +70,18 @@ public class CategoryMapperProvider {
 			sb.append("where agency_id is null ");
 		}
 		sb.append("and parent_category_id=#{parentCategoryId} ");
+		return sb.toString();
+	}
+	
+	public String findAll(Map<String, Object> map) {
+		Long agencyId = (Long)map.get("agencyId");
+		StringBuilder sb = new StringBuilder();
+		sb.append("select category_id, category_name, level, parent_category_id from category ");
+		if(agencyId != null) {
+			sb.append("where agency_id=#{agencyId}");
+		} else {
+			sb.append("where agency_id is null");
+		}
 		return sb.toString();
 	}
 }

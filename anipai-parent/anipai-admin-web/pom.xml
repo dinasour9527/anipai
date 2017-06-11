@@ -63,6 +63,16 @@
 			<artifactId>anipai-auction-backend</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.anipai</groupId>
+			<artifactId>anipai-passport-backend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.anipai</groupId>
+			<artifactId>anipai-file-backend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

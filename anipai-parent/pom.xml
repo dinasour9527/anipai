@@ -21,10 +21,12 @@
 	
 	<modules>
 		<module>anipai-admin-web</module>
+		<module>anipai-customer-web</module>
+		<module>anipai-utils</module>
+		<module>anipai-agency-backend</module>
 		<module>anipai-auction-backend</module>
 		<module>anipai-system-backend</module>
-		<module>anipai-agency-backend</module>
-		<module>anipai-utils</module>
-		<module>anipai-customer-web</module>
+		<module>anipai-passport-backend</module>
+		<module>anipai-file-backend</module>
 	</modules>
 </project>

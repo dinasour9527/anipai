@@ -50,7 +50,7 @@ var Table = function() {
 	var oTable = new Object();
 	oTable.init = function() {
 		$('#tb_auction').bootstrapTable({
-			url: '/auction/auctionTable',             //请求后台的URL（*）
+			url: parent.baseurl + '/auction/auctionTable',             //请求后台的URL（*）
 			method: 'get',                      //请求方式（*）
 			toolbar: '#toolbar',                //工具按钮用哪个容器
 			striped: true,                      //是否显示行间隔色
@@ -149,7 +149,7 @@ var Table = function() {
 			var param = $('#create_form').serialize();
 			$.ajax({
 				type: 'post',
-				url: '/auction/auctionCreate',
+				url: parent.baseurl + '/auction/auctionCreate',
 				dataType: 'json',
 				data: param,
 				success: function(data) {
@@ -163,7 +163,7 @@ var Table = function() {
 			var param = $('#edit_form').serialize();
 			$.ajax({
 				type: 'post',
-				url: '/auction/auctionEdit',
+				url: parent.baseurl + '/auction/auctionEdit',
 				dataType: 'json',
 				data: param,
 				success: function(data) {
@@ -177,7 +177,7 @@ var Table = function() {
 			var auctionId = $('#delete_deploy').data('auctionid');
 			$.ajax({
 				type: 'post',
-				url: '/auction/auctionDelete',
+				url: parent.baseurl + '/auction/auctionDelete',
 				dataType: 'json',
 				data: {
 					'auctionId': auctionId
@@ -201,7 +201,7 @@ function editModel(auctionId) {
 	$('#edit_form')[0].reset();
 	$.ajax({
 		type: 'get',
-		url: '/auction/auctionEditForm/' + auctionId,
+		url: parent.baseurl + '/auction/auctionEditForm/' + auctionId,
 		dataType: 'json',
 		success: function(data) {
 			$('#edit_form_auctionId').val(data.auctionId);

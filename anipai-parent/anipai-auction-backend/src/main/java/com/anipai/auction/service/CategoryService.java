@@ -22,4 +22,6 @@ public interface CategoryService {
 
 	void deleteCategory(Long categoryId);
 
+	List<Category> getCategoryMenu(Long agencyId);
+
 }

@@ -70,5 +70,11 @@ public class CategoryServiceImpl implements CategoryService{
 		List<Category> categoryList = categoryMapper.findCategoryByParentCategoryId(parentCategoryId, agencyId);
 		return categoryList;
 	}
+
+	@Override
+	public List<Category> getCategoryMenu(Long agencyId) {
+		List<Category> categoryList = categoryMapper.findAll(agencyId);
+		return categoryList;
+	}
 	
 }

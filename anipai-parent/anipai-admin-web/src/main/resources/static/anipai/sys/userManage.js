@@ -12,7 +12,7 @@ var Table = function() {
 	var oTable = new Object();
 	oTable.init = function() {
 		$('#tb_user').bootstrapTable({
-			url: '/user/userTable',             //请求后台的URL（*）
+			url: parent.baseurl + '/user/userTable',             //请求后台的URL（*）
 			method: 'get',                      //请求方式（*）
 			toolbar: '#toolbar',                //工具按钮用哪个容器
 			striped: true,                      //是否显示行间隔色
@@ -94,7 +94,7 @@ var Table = function() {
 			var param = $('#create_form').serialize();
 			$.ajax({
 				type: 'post',
-				url: '/user/userCreate',
+				url: parent.baseurl + '/user/userCreate',
 				dataType: 'json',
 				data: param,
 				success: function(data) {
@@ -108,7 +108,7 @@ var Table = function() {
 			var param = $('#edit_form').serialize();
 			$.ajax({
 				type: 'post',
-				url: '/user/userEdit',
+				url: parent.baseurl + '/user/userEdit',
 				dataType: 'json',
 				data: param,
 				success: function(data) {
@@ -122,7 +122,7 @@ var Table = function() {
 			var userId = $('#delete_deploy').data('userid');
 			$.ajax({
 				type: 'post',
-				url: '/user/userDelete',
+				url: parent.baseurl + '/user/userDelete',
 				dataType: 'json',
 				data: {
 					'userId': userId
@@ -140,7 +140,7 @@ var Table = function() {
 function initRole() {
 	$.ajax({
 		type: 'get',
-		url: '/user/role',
+		url: parent.baseurl + '/user/role',
 		dataType: 'json',
 		success: function(data) {
 			$.each(data, function(index, obj) {
@@ -167,7 +167,7 @@ function editModel(userId) {
 	$('#edit_form')[0].reset();
 	$.ajax({
 		type: 'get',
-		url: '/user/userEditForm/' + userId,
+		url: parent.baseurl + '/user/userEditForm/' + userId,
 		dataType: 'json',
 		success: function(data) {
 			$('#edit_form #userId').val(data.userId);

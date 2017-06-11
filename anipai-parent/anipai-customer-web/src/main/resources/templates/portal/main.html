@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>main</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
+	<link rel="stylesheet" th:href="@{/css/common.css}"/>
+	<link rel="stylesheet" th:href="@{/css/base.css}"/>
+	<link rel="stylesheet" th:href="@{/css/head.css}"/>
+	<style type="text/css">
+		a:hover {
+    		text-decoration: none;
+		}
+	</style>
+</head>
+<body style="height: 4000px;">	
+	<div class="headNav">
+		<div class="navCon w1020">
+			<div class="navCon-cate fl navCon_on">
+				<div class="navCon-cate-title">
+					<a href="">全部拍品分类</a>
+				</div>
+				<div id="hide-div" class="cateMenu hide">
+					<ul id="firstLevel">
+						
+					</ul>
+				</div>
+			</div>
+			<div class="navCon-menu fl">
+				<ul>
+					<li><a class="curMenu" href="">首页</a></li>
+					<!-- <li><a href="">购酒团</a></li>
+					<li><a href="">我爱小酒版</a></li>
+					<li><a href="">名家鉴赏</a></li>
+					<li><a href="">名庄酒窖</a></li>
+					<li><a href="">VIP专场</a></li> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/lib/jquery-3.2.0.js}"></script>
+	<script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/anipai/portal/main.js}"></script>
+</body>
+</html>

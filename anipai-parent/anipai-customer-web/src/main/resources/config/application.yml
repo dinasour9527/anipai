@@ -1,0 +1,42 @@
+debug: false
+
+spring:
+  profiles:
+    active: dev 
+  datasource: 
+    url: jdbc:mysql://localhost:3306/anipai
+    username: root
+    password: jh1110
+    driver-class-name: com.mysql.jdbc.Driver
+  thymeleaf:
+    cache: false
+
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+
+---
+#开发环境配置    
+spring:
+  profiles: dev
+
+server:
+  port: 8011
+  address: 127.0.0.1
+  contextPath: /
+
+---
+#测试环境配置    
+spring:
+  profiles: test
+  
+---
+#生产环境设置
+spring:
+  profiles: prop
+
+server:
+  port: 80
+  address: 127.0.0.1
+  contextPath: /
