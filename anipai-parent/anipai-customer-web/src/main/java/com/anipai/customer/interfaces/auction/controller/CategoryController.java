@@ -1,4 +1,4 @@
-package com.anipai.customer.interfaces.category.controller;
+package com.anipai.customer.interfaces.auction.controller;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anipai.auction.domain.Category;
 import com.anipai.auction.service.CategoryService;
-import com.anipai.customer.interfaces.category.dto.CategoryDTO;
-import com.anipai.customer.interfaces.category.dto.CategoryDTOConverter;
+import com.anipai.customer.interfaces.auction.dto.CategoryDTO;
+import com.anipai.customer.interfaces.auction.dto.CategoryDTOConverter;
 import com.anipai.passport.security.CurrentCustomer;
 import com.anipai.passport.security.CustomerDetails;
 

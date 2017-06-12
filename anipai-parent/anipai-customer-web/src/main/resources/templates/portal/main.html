@@ -5,9 +5,12 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" />
-	<link rel="stylesheet" th:href="@{/css/common.css}"/>
+	<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css"/>
+	<!-- Category Nav -->
 	<link rel="stylesheet" th:href="@{/css/base.css}"/>
 	<link rel="stylesheet" th:href="@{/css/head.css}"/>
+	<!-- waterfall -->
+	<link rel="stylesheet" th:href="@{/lib/waterfall/waterfall.css}"/>
 	<style type="text/css">
 		a:hover {
     		text-decoration: none;
@@ -16,7 +19,7 @@
 </head>
 <body style="height: 4000px;">	
 	<div class="headNav">
-		<div class="navCon w1020">
+		<div class="navCon container">
 			<div class="navCon-cate fl navCon_on">
 				<div class="navCon-cate-title">
 					<a href="">全部拍品分类</a>
@@ -39,8 +42,42 @@
 			</div>
 		</div>
 	</div>
+	<!-- 拍品列表展示 -->
+	<div class="container">
+		<div class="waterfall"></div>
+		<div class="auctionpage"></div>
+	</div>
+	<script id="waterfall-template" type="text/template">
+		<ul class="list-group">
+			<li class="list-group-item">
+				<a href="javascript:;">
+					<img src="/goodsimg/goodsimg7.jpg" />
+				</a>
+			</li>
+			<li class="list-group-item">
+				<button type="button" class="btn btn-default btn-xs" title="thumb up"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+				<button type="button" class="btn btn-default btn-xs" title="thumb down"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+				<button type="button" class="btn btn-default btn-xs pull-right" title="pin"><span class="glyphicon glyphicon-pushpin"></span></button>
+			</li>
+			<li class="list-group-item">
+				<div class="media">
+					<div class="media-left">
+						<a href="javascript:;">
+							<img class="media-object img-rounded" style="width: 30px; height: 30px;" src="images/avatar_30.png" />
+						</a>
+					</div>
+					<div class="media-body">
+						<h5 class="media-heading">Liber</h5>
+						<small>I love this pin!</small>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</script>
+
 	<script th:src="@{/lib/jquery-3.2.0.js}"></script>
 	<script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/lib/waterfall/bootstrap-waterfall.js}"></script>
 	<script th:src="@{/anipai/portal/main.js}"></script>
 </body>
 </html>

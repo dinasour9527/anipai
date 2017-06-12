@@ -1,5 +1,6 @@
 package com.anipai.auction.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
@@ -50,5 +51,31 @@ public interface AuctionMapper {
 
 	@Delete("delete from auction where auction_id=#{auctionId}")
 	void deleteAuction(Long auctionId);
+
+	@Select("select a.auction_id, a.auction_name, a.intro, p.path "
+			+ "from auction a, goods g, pic p, goods_pic gp where a.goods_id=g.goods_id "
+			+ "and gp.goods_id = a.goods_id "
+			+ "and gp.pic_id = p.pic_id "
+			+ "and g.third_category_id=#{thirdCategoryId} "
+			+ "and a.agency_id=#{agencyId} "
+			+ "and a.begin_time<=#{currentTime} "
+			+ "and a.end_time>#{currentTime}")
+	@Results({
+		@Result(column = "auction_id", property = "auctionId"),
+		@Result(column = "auction_name", property = "auctionName"),
+		@Result(column = "intro", property = "intro"),
+		@Result(column = "path", property = "pic.path")
+	})
+	List<Auction> findBeginAuctionListByThirdCategoryId(@Param("currentTime") Date currentTime,
+			@Param("thirdCategoryId") Long thirdCategoryId, @Param("agencyId") Long agencyId);
+
+	@Update("update auction set state=1 "
+			+ "where begin_time<=#{currentTime} "
+			+ "and end_time>#{currentTime}")
+	void updateAuctionStateBegin(Date currentTime);
+
+	@Update("update auction set state=2 "
+			+ "where end_time<=#{currentTime}")
+	void updateAuctionStateFinish(Date currentTime);
 
 }

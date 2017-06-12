@@ -1,4 +1,4 @@
-package com.anipai.customer.interfaces.category.dto;
+package com.anipai.customer.interfaces.auction.dto;
 
 public class CategoryDTO {
 	private Long categoryId;

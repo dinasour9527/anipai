@@ -31,6 +31,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.anipai</groupId>
+			<artifactId>anipai-file-backend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.anipai</groupId>
 			<artifactId>anipai-utils</artifactId>
 			<version>${project.version}</version>
 		</dependency>

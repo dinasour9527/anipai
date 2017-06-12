@@ -1,6 +1,7 @@
 package com.anipai.auction.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import com.anipai.auction.domain.Auction;
@@ -17,5 +18,7 @@ public interface AuctionService {
 			String intro);
 
 	void deleteAuction(Long auctionId);
+
+	List<Auction> getBeginAuction(Long thirdCategoryId, Long agencyId);
 
 }

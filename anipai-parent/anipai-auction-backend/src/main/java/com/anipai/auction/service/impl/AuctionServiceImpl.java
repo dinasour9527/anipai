@@ -77,4 +77,13 @@ public class AuctionServiceImpl implements AuctionService {
 		auctionMapper.deleteAuction(auctionId);
 	}
 
+	@Override
+	public List<Auction> getBeginAuction(Long thirdCategoryId, Long agencyId) {
+		Date currentTime = new Date();
+		List<Auction> auctionList = auctionMapper.findBeginAuctionListByThirdCategoryId(currentTime, thirdCategoryId, agencyId);
+		auctionMapper.updateAuctionStateBegin(currentTime);
+		auctionMapper.updateAuctionStateFinish(currentTime);
+		return auctionList;
+	}
+
 }

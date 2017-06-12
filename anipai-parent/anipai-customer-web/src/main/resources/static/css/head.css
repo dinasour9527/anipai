@@ -19,7 +19,7 @@ body{overflow-x:hidden;}
 
 
 .topBarCon .miniMenu { height:28px; _overflow:hidden;}
-.topBarCon .miniMenu li{ float:left; margin-left:3px; text-align:center; height:28px; background:url(../image/index_new_bg.png) right -149px no-repeat;}
+.topBarCon .miniMenu li{ float:left; margin-left:3px; text-align:center; height:28px}
 .topBarCon .miniMenu u{background: url("../image/bg_index.png") -150px -89px; display:inline-block; height:10px; width:10px; _margin-top:11px; margin-left:5px; overflow: hidden;}
 .topBarCon .miniMenu .m66{ width:50px; } .topBarCon .miniMenu .m66 a{ color:#cf0404;}
 .topBarCon .miniMenu .m55{ width:58px; } .topBarCon .miniMenu .m55 a{ color:#cf0404;}
@@ -27,7 +27,7 @@ body{overflow-x:hidden;}
 .topBarCon .miniMenu .m3{ width:80px; position:relative;}
 .topBarCon .miniMenu .m2{ width:70px; }
 .topBarCon .miniMenu .m1{ width:120px; position:relative; z-index:13;}
-.topBarCon .miniMenu .m1 b{ background:url(../image/index_new_bg.png) -70px -91px no-repeat; width:14px; height:11px; margin-right:5px; display:inline-block;}
+.topBarCon .miniMenu .m1 b{width:14px; height:11px; margin-right:5px; display:inline-block;}
 .topBarCon .miniMenu .on{border:1px solid #dadada; margin-top:2px; margin-left:-2px; margin-right:-1px; background:#ffffff; line-height:22px;}
 .topBarCon .miniMenu .cur{border:1px solid #dadada; margin-top:2px; margin-left:-2px; margin-right:3px; background:#ffffff; line-height:22px; text-indent:8px;}
 
@@ -180,7 +180,7 @@ body{overflow-x:hidden;}
 .headNav .navCon .navCon-cate .cateMenu{ position:absolute; left:0px; font-family:"Î¢ÈíÑÅºÚ"; box-shadow:4px 2px 5px rgba(0, 0, 0, 0.3); background:#8d0000; cursor:pointer;}
 .headNav .navCon .navCon-cate .cateMenu li{ width:210px;overflow:hidden; border-bottom:1px solid #7d0000;border-top:1px solid #a40000;}
 .headNav .navCon .navCon-cate .cateMenu li .cate-tag{ width:190px; padding:10px 5px 10px 15px; overflow:hidden; line-height:25px;}
-.headNav .navCon .navCon-cate .cateMenu li .cate-tag strong{ height:25px; line-height:25px; width:172px; display:block; text-indent:0px; background:url(../image/index_new_bg.png) 160px -128px no-repeat;}
+.headNav .navCon .navCon-cate .cateMenu li .cate-tag strong{ height:25px; line-height:25px; width:172px; display:block; text-indent:0px;}
 .headNav .navCon .navCon-cate .cateMenu li .cate-tag strong a{ font-size:14px; font-weight:bold; color:#fff;}
 .headNav .navCon .navCon-cate .cateMenu li .cate-tag .listModel{text-indent:0px; }
 .headNav .navCon .navCon-cate .cateMenu li .cate-tag .listModel p{ height:26px;}
@@ -192,7 +192,7 @@ body{overflow-x:hidden;}
 .float-list-dnav a {color: #FFFFFF;margin: 0 10px 0 10px;}
 .float-list-dnav a:hover{ color:#ffffff;}
 
-.headNav .navCon .navCon-cate .cateMenu .list-item{ width:520px; padding:10px 10px 20px 10px; border:1px solid #A7A7A7; border-left:none; background:#FFFFFF; box-shadow:4px 3px 5px rgba(0, 0, 0, 0.5); background:url(../image/catemenubg.png) repeat-y #FFF; position:absolute; left:210px; top:0px;}
+.headNav .navCon .navCon-cate .cateMenu .list-item{ width:520px; padding:10px 10px 20px 10px; border:1px solid #A7A7A7; border-left:none; background:#FFFFFF; box-shadow:4px 3px 5px rgba(0, 0, 0, 0.5); position:absolute; left:210px; top:0px;}
 .headNav .navCon .navCon-cate .cateMenu .list-item .itemleft{ width:510px; float:left;}
 .headNav .navCon .navCon-cate .cateMenu .list-item .itemright{ width:220px; float:right;}
 .headNav .navCon .navCon-cate .cateMenu .list-item dl{ padding-left:10px;}

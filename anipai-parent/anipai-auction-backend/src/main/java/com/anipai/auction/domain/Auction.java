@@ -3,6 +3,7 @@ package com.anipai.auction.domain;
 import java.util.Date;
 
 import com.anipai.agency.domain.Agency;
+import com.anipai.file.domain.Pic;
 
 public class Auction {
 	private Long auctionId;
@@ -14,6 +15,7 @@ public class Auction {
 	private Long qtyAuction;
 	private Integer state;
 	private Agency agency;
+	private Pic pic;
 	
 	public Auction() {}
 	public Auction(String auctionName, String intro, Date beginTime, Date endTime, Goods goods, Long qtyAuction,
@@ -93,5 +95,11 @@ public class Auction {
 	}
 	public void setAgency(Agency agency) {
 		this.agency = agency;
+	}
+	public Pic getPic() {
+		return pic;
+	}
+	public void setPic(Pic pic) {
+		this.pic = pic;
 	}
 }
