@@ -30,7 +30,7 @@ public interface AuctionMapper {
 	@SelectProvider(type = AuctionMapperProvider.class, method = "findAuctionPage")
 	@Results({
 		@Result(column = "goods_id", property = "goods",
-			one = @One(select = "com.anipai.auction.mapper.GoodsMapper.findGoods"))
+				one = @One(select = "com.anipai.auction.mapper.GoodsMapper.findGoods"))
 	})
 	List<Auction> findAuctionPage(@Param("page") Pagination pagination, @Param("agencyId") Long agencyId);
 

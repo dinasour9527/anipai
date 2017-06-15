@@ -1,6 +1,9 @@
 package com.anipai.customer.interfaces.auction.dto;
 
 import java.math.BigDecimal;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class AuctionDTO {
 	private Long auctionId;
@@ -12,6 +15,8 @@ public class AuctionDTO {
 	private BigDecimal expectPrice;
 	private String unit;
 	private Long qtyAuction;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+	private Long remainTime;
 	
 	public AuctionDTO(Long auctionId, String auctionName, String intro, String path) {
 		this.auctionId = auctionId;
@@ -20,7 +25,7 @@ public class AuctionDTO {
 		this.path = path;
 	}
 	public AuctionDTO(Long auctionId, String auctionName, String intro, String path, BigDecimal assessPrice,
-			BigDecimal expectPrice, String unit, Long qtyAuction) {
+			BigDecimal expectPrice, String unit, Long qtyAuction, Date endTime) {
 		this.auctionId = auctionId;
 		this.auctionName = auctionName;
 		this.intro = intro;
@@ -29,6 +34,7 @@ public class AuctionDTO {
 		this.expectPrice = expectPrice;
 		this.unit = unit;
 		this.qtyAuction = qtyAuction;
+		this.remainTime = (endTime.getTime()-new Date().getTime())/1000;
 	}
 	public Long getAuctionId() {
 		return auctionId;
@@ -77,5 +83,11 @@ public class AuctionDTO {
 	}
 	public void setQtyAuction(Long qtyAuction) {
 		this.qtyAuction = qtyAuction;
+	}
+	public Long getRemainTime() {
+		return remainTime;
+	}
+	public void setRemainTime(Long remainTime) {
+		this.remainTime = remainTime;
 	}
 }

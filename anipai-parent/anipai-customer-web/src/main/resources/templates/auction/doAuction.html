@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>竞拍</title>
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" th:href="@{/lib/bootstrap-table/css/bootstrap-table.css}"/>
+	<link rel="stylesheet" th:href="@{/lib/flipclock/css/flipclock.css}"/>
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		    var auction = /*[[${auction}]]*/;
@@ -15,31 +17,33 @@
 <body>
 	<div class="container">
 		<div class="row clearfix">
-			<div class="col-md-4 column">
-				<img alt="140x140" src="/goodsimg/goodsimg7.jpg" style="width:100%"/>
+			<div class="col-md-3 column">
+				<img alt="140x140" th:src="${auction.path}" style="width:100%"/>
 				<dl class="dl-horizontal">
 					<dt style="text-align: left">拍品名称</dt>
-					<dd>李闯王</dd>
+					<dd th:text="${auction.auctionName}"></dd>
 					<dt style="text-align: left">估价</dt>
-					<dd>13¥</dd>
+					<dd th:text="${'¥'+auction.assessPrice}"></dd>
 					<dt style="text-align: left">卖方期望价</dt>
-					<dd>15¥</dd>
+					<dd th:text="${'¥'+auction.expectPrice}"></dd>
 					<dt style="text-align: left">数量</dt>
-					<dd>2本</dd>
+					<dd th:text="${auction.qtyAuction+auction.unit}"></dd>
 				</dl>
 				<dl>
 					<dt>简介</dt>
-					<dd><p>这是一本李闯王的连环画</p></dd>
+					<dd><p th:text="${auction.intro}"></p></dd>
 				</dl>
 			</div>
-			<div class="col-md-4 column">
+			<div class="col-md-6 column">
+				<label>倒计时</label>
+				<div class="your-clock" style="display: inline-flex;margin-bottom: 20px"></div>
 				<dl class="dl-horizontal">
-					<dt style="text-align: left">目前出价</dt>
-					<dd>11¥</dd>
-					<dt style="text-align: left">下个最低出价</dt>
-					<dd>15¥</dd>
+					<dt style="text-align: left">目前最高出价</dt>
+					<dd id="highestbid"></dd>
+					<!-- <dt style="text-align: left">下个最低出价</dt>
+					<dd>15¥</dd> -->
 				</dl>
-				<label>快速出价</label>
+				<!-- <label>快速出价</label>
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
 						<div class="col-sm-4">
@@ -52,51 +56,36 @@
 							<button type="submit" class="btn btn-default" style="width:80%">27¥</button>
 						</div>
 					</div>
-				</form>
-				<label>直接出价</label>
-				<form class="form-horizontal" role="form">
+				</form> -->
+				<form id="bid_form" class="form-horizontal" role="form">
+					<input type="hidden" name="auctionId" th:attr="value=${auction.auctionId}"/>
+					<label for="bidPrice" class="control-label">直接出价</label>
 					<div class="form-group">
 						<div class="col-sm-6">
-							<input type="email" class="form-control" id="inputEmail3"/>
+							<div class="input-group">
+								<span class="input-group-btn">
+							        <button type="button" class="btn btn-default" data-value="-1" data-target="#bidPrice" data-toggle="spinner">
+							            <span class="fa fa-minus"></span>
+							        </button>
+							    </span>
+								<input id="bidPrice" name="bidPrice" type="text" class="form-control input-number"
+									data-ride="spinner" value="1"/>
+								<span class="input-group-btn">
+							        <button type="button" class="btn btn-default" data-value="1" data-target="#bidPrice" data-toggle="spinner">
+							            <span class="fa fa-plus"></span>
+							        </button>
+							    </span>
+						    </div>
 						</div>
 						<div class="col-sm-6">
-							<button type="submit" class="btn btn-default">出价</button>
+							<button type="submit" class="btn btn-default" onclick="doBid();return false;">出价</button>
 						</div>
 					</div>
 				</form>
 			</div>
-			<div class="col-md-4 column">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>竞买人编号</th>
-							<th>竞价</th>
-							<th>竞价时间</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>竞买人1</td>
-							<td>1¥</td>
-							<td>2017/06/12</td>
-						</tr>
-						<tr>
-							<td>竞买人1</td>
-							<td>2¥</td>
-							<td>2017/06/12</td>
-						</tr>
-						<tr>
-							<td>竞买人1</td>
-							<td>3¥</td>
-							<td>2017/06/12</td>
-						</tr>
-						<tr>
-							<td>竞买人1</td>
-							<td>4¥</td>
-							<td>2017/06/12</td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="col-md-3 column">
+				<label>竞价记录</label>
+				<table id="tb_bid"></table>
 			</div>
 		</div>
 	</div>
@@ -104,5 +93,11 @@
 	
 	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 	<script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/lib/flipclock/js/flipclock.min.js}"></script>
+	<script th:src="@{/lib/bootstrap-spinner/bootstrap-spinner.min.js}"></script>
+	<script th:src="@{/lib/bootstrap-spinner/mousehold.min.js}"></script>
+	<script th:src="@{/lib/bootstrap-table/js/bootstrap-table.js}"></script>
+	<script th:src="@{/lib/bootstrap-table/js/bootstrap-table-zh-CN.js}"></script>
+	<script th:src="@{/anipai/auction/doAuction.js}"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ public class AuctionDTOConverter {
 	public static AuctionDTO toDTOWithGoods(Auction auction, Goods goods){
 		return new AuctionDTO(auction.getAuctionId(), auction.getAuctionName(), auction.getIntro(),
 				auction.getPic().getPath(), goods.getAssessPrice(), goods.getExpectPrice(), goods.getUnit(),
-				goods.getQtyAuction());
+				auction.getQtyAuction(), auction.getEndTime());
 	}
 	
 	public static List<AuctionDTO> toDTOList(List<Auction> auctionList) {
